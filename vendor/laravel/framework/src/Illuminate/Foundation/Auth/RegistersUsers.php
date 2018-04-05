@@ -61,7 +61,7 @@ trait RegistersUsers
         $UserConfig->iduser =$user->id;
         $UserConfig->url_avatar = '/200x200.jpg';
         $UserConfig->url_bg = '/900x300.png';
-        $UserConfig->aboutme = "Ainda escreverei algo sobre mim!";
+        $UserConfig->aboutme = "Ainda escreverei algo sobre mim, aguarde!";
         $UserConfig->save();
         unset($UserConfig);
     }

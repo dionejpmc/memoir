@@ -212,7 +212,7 @@ $(".target").delay(3000).mouseenter(function(){
         $(".target:eq("+eq+")")
             .append("<div class='arrow_box popup btn btn-primary'"  
                 +"style='width:600px; height:150px; position:fixed; margin-left: 18%;margin-top: -50px; z-index: 2000; opacity:0.9; border: solid 1px #ccc;'>" 
-                +"<img src='"+avatar+"' class='img-circle' style='width:60px; border: solid 4px #fff;  margin-top:-35px;'>"
+                +"<img src='"+avatar+"' class='img-circle' style='width:62px; border: solid 4px #fff;  margin-top:-35px;'>"
                 +"<form action='' method='post' accept-charset='utf-8' enctype='multipart/form-data'> <div class='form-group'>"
                 +"<textarea class='form-control box-msg-ta' style='z-index: 1002; width:570px; height:50px; color:black;'></textarea></div>"
                 +"<button type='subimit' class='form-control btn btn-success btn-x'> Enviar</button>"
