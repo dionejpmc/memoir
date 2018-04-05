@@ -1,0 +1,66 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+html,body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	background: rgb(192,192,192);
+	font-family: 'Raleway', sans-serif;
+}
+span {
+	font-weight: bold;
+}
+.status-info{
+	font-weight: bold;
+}
+.image-avatar{
+	width: 50%;
+	height: 50%;
+	
+}
+.image-avatar img{
+	width: 100%;
+	height: 100%;
+	margin-left: 55%;
+	
+}
+.col1{
+	background: rgb(255,255,255);
+	border-radius: 2px 2px 2px 2px;
+
+}
+.divimg{
+
+}
+.bgimg{
+	border-radius: 4px 4px 4px 4px;
+	width: 100%;
+	height: 310px;
+}
+
+@media screen and (max-width: 800px) {
+    .bgimg {
+		width: 100%;
+		height: 100px;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .status-info  {
+		font-size: 8pt;
+		word-wrap: break-word;
+    }
+
+    span .row{
+		font-size: 8pt;
+		word-wrap: break-word;
+		font-weight: bold;
+    }
+    .image-avatar img{
+		margin-left: 55%;
+	
+	}
+}
+  .texto{
+		background: rgb(255,255,255);
+		word-wrap: break-word;
+		text-align: justify;
+  }
