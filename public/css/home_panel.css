@@ -11,17 +11,16 @@ body{
 	box-shadow: 4px 4px 4px 2px #9C9C9C;
 	border-radius: 4px 4px 4px 4px;
 	margin-left: 4px;
-	width: 20px;
+	width: 280px;
 	left: 4px;
-	 -webkit-transition: width 2s, height 4s; /* Safari */
-    transition: width 2s, height 4s;	
+
     z-index: 100;
 }
-.elos-div:hover{
+/*.elos-div:hover{
 	width: 250px;
-    -webkit-transition: width 2s, height 4s; /* Safari */
+    -webkit-transition: width 2s, height 4s;
     transition: width 2s, height 4s;
-}
+}*/
 .title-nav{
 	height: 20px;
 	margin-left: 45%;
@@ -120,9 +119,9 @@ div.gallery img {
 	transition: all 0.3s;
 }
 .zoom:hover img {
-	-moz-transform: scale(1.1);
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
+	-moz-transform: scale(1.5);
+	-webkit-transform: scale(1.5);
+	transform: scale(1.5);
 }
 .div-elos-post{
 	margin-bottom: 1px;
@@ -241,10 +240,8 @@ div.gallery img {
 	box-shadow: 4px 4px 4px 1px #9C9C9C;
 	border-radius: 4px 4px 4px 4px;
 	margin-right: 4px;
-	width: 250px;
+	width: 280px;
 	right: 4px;
-	 -webkit-transition: width 2s, height 4s; /* Safari */
-    transition: width 2s, height 4s;
 }
 .arrow_box:after, .arrow_box:before {
 	right: 100%;
@@ -267,4 +264,8 @@ div.gallery img {
 	border-right-color: #428bca;
 	border-width: 15px;
 	margin-top: -15px;
+}
+
+#style-2{
+
 }

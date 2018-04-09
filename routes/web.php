@@ -18,6 +18,9 @@
 Auth::routes();
 
 //Route::get('/searchusers', 'ProfileController@searchperfil')->name('searchusers');
+Route::get('profile/get_message', 'ProfileController@get_message')->name('profile.get_message');
+Route::get('profile/private_message', 'ProfileController@send_message')->name('profile.private_message');
+
 Route::get('newelo', 'ProfileController@create_elo')->name('newelo');
 
 Route::get('searchusers', 'ProfileController@searchperfil')->name('searchusers');
@@ -41,6 +44,7 @@ Route::group(['middleware'=>['web']], function(){
 Route::post('savememoir','MemoirFeedController@savememoir');
 
 Route::get('logout', 'Auth\LoginController@logout');
+
 
 Route::get('/{alias?}', 'ProfileController@perfil');
 

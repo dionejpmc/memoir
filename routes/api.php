@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('private_message:api')->get('profile/private_message', function (Request $request) {
+    return $request->PrivateMessage();
+});

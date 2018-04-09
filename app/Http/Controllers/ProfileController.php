@@ -3,10 +3,12 @@
         
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\MemoirFeedMsg;
 use App\Elos;
 use Illuminate\Support\Facades\Auth;
 use App\User; // aqui você está importando o Model User
+use App\PrivateMessage;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -87,8 +89,31 @@ class ProfileController extends Controller
 				}
 			} catch (Exception $e) {
 				return $e;
-			}
-						
+			}				
 		}
+	}
+	public function send_message(Request $request)
+	{
+		if (Auth::check()) {
+
+			$idreceiver = DB::table('users')->select('id')
+								 ->where('alias','=', $request->input2)
+								 ->first();
+			$msg =  new PrivateMessage();
+			$msg->message = $request->input1;
+			$msg->idsender =  Auth::user()->id;
+			$msg->status_msg =  0;
+			$msg->idreceiver = $idreceiver->id;
+			$msg->save();
+			return $msg;
+		}else{
+			 return view('auth.login');
+		}
+	}
+	public function get_message(Request $request)
+	{
+			$data = PrivateMessage::where('idreceiver', '=', Auth::user()->id)->get();
+			
+			return $data;
 	}
 }

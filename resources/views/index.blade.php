@@ -3,7 +3,8 @@
   <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Index</title>
+      <link rel="shortcut icon" href="{{ asset('elos.ico') }}" type="image/x-icon">
+      <title>Memoir</title>
       <script type="text/javascript" src="{{asset('/bootstrap-3.2.0/js/bootstrap.js')}}"></script>
       <script type="text/javascript" src="{{asset('/js/jquery-3.2.1.min.js')}}"></script>
       <link rel="stylesheet" href="{{asset('/css/index_style.css')}}">

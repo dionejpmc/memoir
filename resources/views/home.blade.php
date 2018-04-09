@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="{{asset('/bootstrap-3.2.0/css/bootstrap.css')}}">
 <link rel="stylesheet" href="{{asset('/css/home_panel.css')}}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<meta http-equiv="expires" content="no-cache">
 <?php 
     setlocale (LC_ALL, 'pt_BR');
     date_default_timezone_set('America/Sao_Paulo');
@@ -28,7 +29,6 @@
     </div>
     <div class="box-search input-group">
         <ul class="box-select">
-                
         </ul>
     </div>
     <div id="style-1" class="elos-div table-overflow scrollbar " >
@@ -51,8 +51,6 @@
         <div class="force-overflow">
             <nav >
                 <ul class="ul-msg">
-                   
-                   
                 </ul>
             </nav>
         </div>
@@ -113,7 +111,7 @@
                             @if ($msg->urlimg!=='')
                                 <div id="card" class="container gallery col-md-6 zoom">
                                     <a linkimg="{{url('/') . $msg->urlimg}}" data-toggle="modal" data-target="#imgModal" class="aimg">
-                                        <img src="{{url('/') . $msg->urlimg}}" class="img-responsive imagememoir">
+                                        <img src="{{url('/') . $msg->urlimg}}" style="border-radius: 4px 4px 4px 4px;" class="img-responsive imagememoir">
                                     </a>
                                 </div>
                             @endif   
@@ -147,6 +145,7 @@
 $(document).ready(function(){
     $('.new-elo').keypress(function(){
         $(".box-select").html("");
+        $(".popup").fadeOut(1000);
         if($(this).val().length >= 3 ){
             $(".box-search").addClass( "panel-box-frm" );
             $(".box-search").css("display","block");
@@ -158,6 +157,7 @@ $(document).ready(function(){
                 success:function(result){
                     $(".box-select").html("");
                     if (result[0]['alias'].length > 2) {
+                          console.log(result);
                           $(".box-select").html("");
                           for (i = 0; i <= result.length; i++) {
                               $(".box-select").append("<li id-value='result[i]['id']' class='li-box'><img class='elos-avatar img-circle' src='{{url('/')}}" + result[i]['url_avatar'] +" '><a href='"+result[i]['alias']+" '  class='a-box' >"+result[i]['alias']+" </a><span class='span-box' >" + result[i]['name']+"</span></li>");
@@ -178,14 +178,26 @@ $(document).ready(function(){
     });
 });
 </script>
-<script>
-        $(document).on("keydown", "#textmemoir", function () {
-            var caracteresRestantes = 200;
-            var caracteresDigitados = parseInt($(this).val().length);
-            var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+<script type="text/javascript">
+$(document).ready( function () {
+    $.get("{{route('profile.get_message')}}",function(data){
+        console.log("Mensagens pessoais");
+        console.log(data);
+        for (i = 0; i <=  data.length; i++) {
+            $(".ul-msg").append("<div class='alert alert-success' data-dismiss='alert'> <span class='span-msg close' style='right:8px; position:absolute; '>&#x2718;</span>"+data[i]['message']+"</div>");
+        }
+    });
+});
 
-            $(".caracteres").text(caracteresRestantes);
-        });
+
+</script>
+<script>
+    $(document).on("keydown", "#textmemoir", function () {
+        var caracteresRestantes = 200;
+        var caracteresDigitados = parseInt($(this).val().length);
+        var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+        $(".caracteres").text(caracteresRestantes);
+    });
 </script>
 <script type="text/javascript">
     $(document).on("click", function () {
@@ -202,7 +214,7 @@ $(document).ready(function(){
     });
 </script>
 <script type="text/javascript">
-$(".target").delay(3000).mouseenter(function(){
+$(".target").mouseenter(function(){
     var self    = $(this),
         eq  = self.index(),
         nome   = self.text();
@@ -211,21 +223,48 @@ $(".target").delay(3000).mouseenter(function(){
     if (!$(".popup:eq("+eq+")").length) {
         $(".target:eq("+eq+")")
             .append("<div class='arrow_box popup btn btn-primary'"  
-                +"style='width:600px; height:150px; position:fixed; margin-left: 18%;margin-top: -50px; z-index: 2000; opacity:0.9; border: solid 1px #ccc;'>" 
+                +"style='-webkit-transform: translate3d(0px, 0px, 0px); width:600px; height:150px; position:fixed; margin-left: 18%;margin-top: -50px; z-index: 9999; opacity:0.9; border: solid 1px #ccc;'>" 
                 +"<img src='"+avatar+"' class='img-circle' style='width:62px; border: solid 4px #fff;  margin-top:-35px;'>"
-                +"<form action='' method='post' accept-charset='utf-8' enctype='multipart/form-data'> <div class='form-group'>"
-                +"<textarea class='form-control box-msg-ta' style='z-index: 1002; width:570px; height:50px; color:black;'></textarea></div>"
-                +"<button type='subimit' class='form-control btn btn-success btn-x'> Enviar</button>"
-                +"</form>"
-                +"</div>");
-
-    }else{
-        if ($(".popup:eq("+eq+")").css('display') == 'none'){
-            $(".popup:eq("+eq+")").fadeIn(1000);
-        };
+                +"<span aria-hidden='true' class='close' style='top:0; left:95%; position:absolute; width:30px;  border-radius:20px 20px 20px 20px ; '>&#x2718;</span>"
+                +"<div  id='privatemsg'> <div class='form-group'>"
+                +"<input id='msgvalue' alias='"+alias+"' name='"+alias+"' class='msgvalue form-control box_msg_ta' style='z-index: 1002; width:570px; height:50px; color:black;'></div>"
+                +"<input class='aliasname' type='hidden' name='alias' value='"+alias+"'>"
+                +"<button class='btnsubmit form-control btn btn-success btn-x'>Enviar</button>"
+                +"</div>"
+                +"</div>");   
+    $(".close:eq("+eq+")").click( function(){
+        $(".popup:eq("+eq+")").removeClass( "hover" );
+        $(".target:eq("+eq+")").removeClass( "hover" );
+        $(".popup:eq("+eq+")").fadeOut(1000);
+    }); 
+    $(".btnsubmit:eq("+eq+")").click(function() {
+        var inputmsg = $(".msgvalue:eq("+eq+")").val(); // the script where you handle the form input.
+        var alias =    $(".aliasname:eq("+eq+")").val();
+        $.ajax({
+               type: "get",
+               url: "{{route('profile.private_message')}}",
+               data: {input1: inputmsg, input2:alias}, // serializes the form's elements.
+               success: function(data)
+               {
+                   console.log("Mensagem enviada");
+                   console.log(data);
+                   $(".popup").fadeOut("slow");
+               },
+                error: function() {
+                   console.log('erro ao enviar menssagen');
+                   $(".popup").fadeOut("slow");
+                }
+             });
+        });
     }
-}).mouseleave(function(){
-    $(".popup").fadeOut(1000);
+    else{
+        $(".popup:eq("+eq+")").fadeIn("slow");
+    }
+    $(".close").live("click", function(){
+        $(".popup").fadeOut(100);
+        $(".popup").removeClass( "hover" );
+
+    });
 });
 </script>
 @endsection

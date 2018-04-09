@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Menu</div>
+                <div class="panel-heading">Editar perfil</div>
                 <form action="{{asset('home/menu/saveconfig')}}" method="post" accept-charset="utf-8" enctype="multipart/form-data">  
                     {{ csrf_field() }}
                     @if (session('erro'))

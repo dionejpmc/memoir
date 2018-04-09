@@ -2,12 +2,14 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" href="{{ asset('elos.ico') }}" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Styles -->
+    <script rel="stylesheet" src="{{asset('/bootstrap-3.2.0/js/bootstrap.js')}}"></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="{{asset('/bootstrap-3.2.0/css/bootstrap.css')}}">
@@ -51,7 +53,10 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
-                                    <li><a href="{{ url('home/menu') }}"><span lass="glyphicon glyphicon-cog "></span> Menu</a></li>
+                                    <li><a href="{{ url('home/menu') }}"><span class="glyphicon glyphicon-pencil"></span> Editar perfil</a></li>
+                                       
+                                    </li>
+                                    <li><a href="{{ url('home/menu') }}"><span class="glyphicon glyphicon-pencil"></span> Configurações</a></li>
                                        
                                     </li>
                                 </ul>
