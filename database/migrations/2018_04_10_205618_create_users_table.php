@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateElosTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateElosTable extends Migration
      */
     public function up()
     {
-        Schema::create('elos', function (Blueprint $table) {
-            $table->integer('iduser')->unsigned();
-            $table->integer('idelo')->unsigned();
-            $table->integer('type_elo')->nullable();
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 100);
+            $table->string('alias',50)->unique();
+            $table->string('email',100)->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
@@ -27,6 +31,6 @@ class CreateElosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elos');
+        Schema::dropIfExists('users');
     }
 }

@@ -15,8 +15,7 @@ class Userconfig extends Migration
     {
         //
         Schema::create('userconfig', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('iduser')->unsigned();
+            $table->integer('iduser')->unsigned()->unique();
             $table->foreign('iduser')->references('id')->on('users');
             $table->string('url_avatar');
             $table->string('url_bg');

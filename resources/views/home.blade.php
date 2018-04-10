@@ -32,7 +32,7 @@
     </div>
     <div id="style-1" class="elos-div table-overflow scrollbar " >
         <li  class="a-box title-box" ><a href="{{$var->alias}}" class="a-box title-box" href="#"> Seus Elos</a> </li>
-        <div class="title-nav"> <a class="elos-post" href="#" ><img class="elos-post" src="{{url('/') . '/images/elos.png'}}"></a></div>
+        <div class="title-nav"> <a class="elos-post" ><img class="elos-post" src="{{url('/') . '/images/elos.png'}}"></a></div>
         <hr class="hr">
         <div class="force-overflow">
             <nav >
@@ -250,7 +250,6 @@ $(".target").mouseenter(function(event){
         nome   = self.text();
     var alias = $(".a-href:eq("+eq+")").attr("href");
     var avatar = $(".avatar-box:eq("+eq+")").attr("src");
-
     if (!$(".popup:eq("+eq+")").length) {
         $(".target:eq("+eq+")")
             .append("<div class='arrow_box popup btn btn-primary'"  
@@ -265,7 +264,8 @@ $(".target").mouseenter(function(event){
                 +"</div>");
         $(".close:eq("+eq+")").on("click",function(){
             $(".popup:eq("+eq+")").fadeOut("slow");
-        });       
+        });     
+        $(this).off('mouseleave mouseenter');  
         $(".btnsubmit:eq("+eq+")").on("click",function() {
             var inputmsg = $(".msgvalue:eq("+eq+")").val(); // the script where you handle the form input.
             var alias =    $(".aliasname:eq("+eq+")").val();
