@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User; // aqui você está importando o Model User
 use App\PrivateMessage;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -95,10 +96,9 @@ class ProfileController extends Controller
 	public function send_message(Request $request)
 	{
 		if (Auth::check()) {
-
 			$idreceiver = DB::table('users')->select('id')
-								 ->where('alias','=', $request->input2)
-								 ->first();
+							  ->where('alias','=', $request->input2)
+							  ->first();
 			$msg =  new PrivateMessage();
 			$msg->message = $request->input1;
 			$msg->idsender =  Auth::user()->id;
@@ -112,8 +112,23 @@ class ProfileController extends Controller
 	}
 	public function get_message(Request $request)
 	{
-			$data = PrivateMessage::where('idreceiver', '=', Auth::user()->id)->get();
-			
+			$data = PrivateMessage::where('idreceiver', '=', Auth::user()->id)
+									->where('status_msg', '=', 0)
+									->get();
 			return $data;
+	}
+	public function edit_message(Request $request)
+	{
+		setlocale (LC_ALL, 'pt_BR');
+        date_default_timezone_set('America/Sao_Paulo');
+		try {
+			DB::table('private_message')->where('idsender', '=', $request->idsender)
+									    ->where('id', '=', $request->idmsg)
+									    ->update(['status_msg' => 1, 'updated_at' => Carbon::now()]);
+			return "Status da mensagem alterado";
+			
+		} catch (Exception $e) {
+			return "Erro ao alterar status da menssagem";
+		}
 	}
 }

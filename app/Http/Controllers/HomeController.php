@@ -26,6 +26,8 @@ class HomeController extends Controller
      */
     public function Index()
     {
+        setlocale (LC_ALL, 'pt_BR');
+        date_default_timezone_set('America/Sao_Paulo');
         if (Auth::check()){
              // $uploadsByDay   = DB::table('uploads')
              //                ->select(DB::raw('

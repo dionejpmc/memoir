@@ -19,6 +19,7 @@ Auth::routes();
 
 //Route::get('/searchusers', 'ProfileController@searchperfil')->name('searchusers');
 Route::get('profile/get_message', 'ProfileController@get_message')->name('profile.get_message');
+Route::get('profile/edit_message', 'ProfileController@edit_message')->name('profile.edit_message');
 Route::get('profile/private_message', 'ProfileController@send_message')->name('profile.private_message');
 
 Route::get('newelo', 'ProfileController@create_elo')->name('newelo');

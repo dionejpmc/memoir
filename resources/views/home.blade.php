@@ -1,16 +1,15 @@
 @extends('layouts.app')
-
 @section('content')
-
+<script type="text/javascript" src="{{asset('/bootstrap-3.2.0/js/bootstrap.js')}}"></script>
+<link rel="stylesheet" href="{{asset('/bootstrap-3.2.0/css/bootstrap.css')}}">
 <link href="{{asset('/bootstrap-fileinput-master/css/fileinput.css')}}" media="all" rel="stylesheet" type="text/css"/>
 <link href="{{asset('/bootstrap-fileinput-master/themes/explorer-fa/theme.css')}}" media="all" rel="stylesheet" type="text/css"/>
 <script src="{{asset('/bootstrap-fileinput-master/js/fileinput.js')}}" type="text/javascript"></script>
-<script src="{{asset('/bootstrap-fileinput-master/themes/explorer-fa/theme.js')}}" type="text/javascript"></script>
-<script src="{{asset('/bootstrap-fileinput-master/themes/fa/theme.js')}}" type="text/javascript"></script>
-<script type="text/javascript" src="{{asset('/bootstrap-3.2.0/js/bootstrap.js')}}"></script>
-<link rel="stylesheet" href="{{asset('/bootstrap-3.2.0/css/bootstrap.css')}}">
+<!--<script src="{{asset('/bootstrap-fileinput-master/themes/explorer-fa/theme.js')}}" type="text/javascript"></script>!-->
+<!--<script src="{{asset('/bootstrap-fileinput-master/themes/fa/theme.js')}}" type="text/javascript"></script>!-->
+
 <link rel="stylesheet" href="{{asset('/css/home_panel.css')}}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
 <meta http-equiv="expires" content="no-cache">
 <?php 
     setlocale (LC_ALL, 'pt_BR');
@@ -46,7 +45,7 @@
         </div>
     </div>
     <div id="style-2" class="msg-div table-overflow scrollbar " >
-        <li class="a-box-msg title-box-msg " ><a href="" class="a-box-msg title-box-msg" > Suas menssagens</a> </li>
+        <li class="a-box-msg title-box-msg " ><a href="" class="a-box-msg title-box-msg" > Suas mensagens</a> </li>
         <hr class="hr">
         <div class="force-overflow">
             <nav >
@@ -111,7 +110,7 @@
                             @if ($msg->urlimg!=='')
                                 <div id="card" class="container gallery col-md-6 zoom">
                                     <a linkimg="{{url('/') . $msg->urlimg}}" data-toggle="modal" data-target="#imgModal" class="aimg">
-                                        <img src="{{url('/') . $msg->urlimg}}" style="border-radius: 4px 4px 4px 4px;" class="img-responsive imagememoir">
+                                        <img src="{{url('/') . $msg->urlimg}}" class="img-responsive imagememoir">
                                     </a>
                                 </div>
                             @endif   
@@ -146,7 +145,7 @@ $(document).ready(function(){
     $('.new-elo').keypress(function(){
         $(".box-select").html("");
         $(".popup").fadeOut(1000);
-        if($(this).val().length >= 3 ){
+        if($(this).val().length > 2 ){
             $(".box-search").addClass( "panel-box-frm" );
             $(".box-search").css("display","block");
             var value = $(this).val();
@@ -155,12 +154,19 @@ $(document).ready(function(){
                 method:"GET",
                 data:{value:value},
                 success:function(result){
+                    var i =0;
                     $(".box-select").html("");
-                    if (result[0]['alias'].length > 2) {
-                          console.log(result);
+                    if (result[i]['alias'].length > 2) {
+                          console.log(result[i]['alias']);
                           $(".box-select").html("");
-                          for (i = 0; i <= result.length; i++) {
-                              $(".box-select").append("<li id-value='result[i]['id']' class='li-box'><img class='elos-avatar img-circle' src='{{url('/')}}" + result[i]['url_avatar'] +" '><a href='"+result[i]['alias']+" '  class='a-box' >"+result[i]['alias']+" </a><span class='span-box' >" + result[i]['name']+"</span></li>");
+                          for (i = 0; i <= result.length -1 ; i++) {
+                                if (result[i]['alias'].length -1 > 2) {
+                                    console.log(result[i]['alias']);
+                                    $(".box-select").append("<li id-value='"+result[i]['id']+"' class='li-box'><img class='elos-avatar img-circle' src='{{url('/')}}" + result[i]['url_avatar'] +" '><a href='"+result[i]['alias']+" '  class='a-box' >"+result[i]['alias']+" </a><span class='span-box' >" + result[i]['name']+"</span></li>");
+                          
+                                }else{
+                                    console.log("Nenhum elo encontrado");
+                                }
                           }
                     }else{
                       $(".box-select").html("");
@@ -173,53 +179,78 @@ $(document).ready(function(){
                 }
             })
         }else{
+          $(".box-select").html("");
           return;
         }
     });
 });
 </script>
 <script type="text/javascript">
-$(document).ready( function () {
+$(document).on("click", ".spanmsg", function () {
+        var idsender = $(this).attr("data-idsender"),
+            idmsg    = $(this).attr("data-idmsg");
+        $(this).fadeOut(2000);
+       window.setTimeout(function(){
+            $(this).remove();
+            $.ajax({
+                   type: "get",
+                   data: {idmsg:idmsg, idsender:idsender}, // serializes the form's elements.
+                   url: "{{route('profile.edit_message')}}",
+                   success: function(data)
+                   {     
+                    
+                   },
+                    error: function() {
+                       console.log('erro ao mudar status da menssagem');
+                    }
+            });
+       },2000);
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
     $.get("{{route('profile.get_message')}}",function(data){
-        console.log("Mensagens pessoais");
+        console.log("mensagens disponiveis");
         console.log(data);
-        for (i = 0; i <=  data.length; i++) {
-            $(".ul-msg").append("<div class='alert alert-success' data-dismiss='alert'> <span class='span-msg close' style='right:8px; position:absolute; '>&#x2718;</span>"+data[i]['message']+"</div>");
+        for (i = 0; i <=  data.length -1 ; i++) {
+            $(".ul-msg").append("<div class='spanmsg' data-idmsg='"+data[i]['id']+"' data-idsender='"+data[i]['idsender']+"'><span  class='close' style='right:8px; position:absolute; z-index:9000; '>&#x2718;</span>"+data[i]['message']+"</div>");
         }
     });
 });
-
-
 </script>
 <script>
-    $(document).on("keydown", "#textmemoir", function () {
-        var caracteresRestantes = 200;
-        var caracteresDigitados = parseInt($(this).val().length);
-        var caracteresRestantes = caracteresRestantes - caracteresDigitados;
-        $(".caracteres").text(caracteresRestantes);
-    });
+$(document).on("keydown", "#textmemoir", function () {
+    var caracteresRestantes = 200;
+    var caracteresDigitados = parseInt($(this).val().length);
+    var caracteresRestantes = caracteresRestantes - caracteresDigitados;
+    $(".caracteres").text(caracteresRestantes);
+    $(".popup").fadeOut(1000);
+});
 </script>
 <script type="text/javascript">
-    $(document).on("click", function () {
-        $(".box-select").html("");
-        $(".box-search").css("display","none");
-    });
+$(document).on("click", function () {
+    $(".box-select").html("");
+    $(".box-search").css("display","none");
+});
 </script>
 <script type="text/javascript">
-    $(document).ready(function() { 
-        $('.aimg').click(function(event){
-            event.preventDefault();
-            $('.modal img').attr('src', $(this).attr('linkimg'));
-        });
+$(document).ready(function() { 
+    $('.aimg').click(function(event){
+        event.preventDefault();
+        $('.modal img').attr('src', $(this).attr('linkimg'));
     });
+});
 </script>
 <script type="text/javascript">
-$(".target").mouseenter(function(){
+$(".target").mouseenter(function(event){
+    event.stopPropagation();
+    event.preventDefault();
     var self    = $(this),
         eq  = self.index(),
         nome   = self.text();
     var alias = $(".a-href:eq("+eq+")").attr("href");
     var avatar = $(".avatar-box:eq("+eq+")").attr("src");
+
     if (!$(".popup:eq("+eq+")").length) {
         $(".target:eq("+eq+")")
             .append("<div class='arrow_box popup btn btn-primary'"  
@@ -231,40 +262,32 @@ $(".target").mouseenter(function(){
                 +"<input class='aliasname' type='hidden' name='alias' value='"+alias+"'>"
                 +"<button class='btnsubmit form-control btn btn-success btn-x'>Enviar</button>"
                 +"</div>"
-                +"</div>");   
-    $(".close:eq("+eq+")").click( function(){
-        $(".popup:eq("+eq+")").removeClass( "hover" );
-        $(".target:eq("+eq+")").removeClass( "hover" );
-        $(".popup:eq("+eq+")").fadeOut(1000);
-    }); 
-    $(".btnsubmit:eq("+eq+")").click(function() {
-        var inputmsg = $(".msgvalue:eq("+eq+")").val(); // the script where you handle the form input.
-        var alias =    $(".aliasname:eq("+eq+")").val();
-        $.ajax({
-               type: "get",
-               url: "{{route('profile.private_message')}}",
-               data: {input1: inputmsg, input2:alias}, // serializes the form's elements.
-               success: function(data)
-               {
-                   console.log("Mensagem enviada");
-                   console.log(data);
-                   $(".popup").fadeOut("slow");
-               },
-                error: function() {
-                   console.log('erro ao enviar menssagen');
-                   $(".popup").fadeOut("slow");
-                }
-             });
+                +"</div>");
+        $(".close:eq("+eq+")").on("click",function(){
+            $(".popup:eq("+eq+")").fadeOut("slow");
+        });       
+        $(".btnsubmit:eq("+eq+")").on("click",function() {
+            var inputmsg = $(".msgvalue:eq("+eq+")").val(); // the script where you handle the form input.
+            var alias =    $(".aliasname:eq("+eq+")").val();
+            $.ajax({
+                   type: "get",
+                   url: "{{route('profile.private_message')}}",
+                   data: {input1: inputmsg, input2:alias}, // serializes the form's elements.
+                   success: function(data)
+                   {
+                       console.log(data);
+                       $(".popup").fadeOut("slow");
+                   },
+                    error: function() {
+                       console.log('erro');
+                       $(".popup").fadeOut("slow");
+                    }
+            });
         });
     }
     else{
         $(".popup:eq("+eq+")").fadeIn("slow");
-    }
-    $(".close").live("click", function(){
-        $(".popup").fadeOut(100);
-        $(".popup").removeClass( "hover" );
-
-    });
+    } 
 });
 </script>
 @endsection
