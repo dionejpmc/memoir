@@ -95,6 +95,8 @@ class ProfileController extends Controller
 	}
 	public function send_message(Request $request)
 	{
+		setlocale (LC_ALL, 'pt_BR');
+        date_default_timezone_set('America/Sao_Paulo');
 		if (Auth::check()) {
 			$idreceiver = DB::table('users')->select('id')
 							  ->where('alias','=', $request->input2)

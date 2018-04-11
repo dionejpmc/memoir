@@ -2,11 +2,11 @@
 @section('content')
 <script type="text/javascript" src="{{asset('/bootstrap-3.2.0/js/bootstrap.js')}}"></script>
 <link rel="stylesheet" href="{{asset('/bootstrap-3.2.0/css/bootstrap.css')}}">
-<link href="{{asset('/bootstrap-fileinput-master/css/fileinput.css')}}" media="all" rel="stylesheet" type="text/css"/>
-<link href="{{asset('/bootstrap-fileinput-master/themes/explorer-fa/theme.css')}}" media="all" rel="stylesheet" type="text/css"/>
-<script src="{{asset('/bootstrap-fileinput-master/js/fileinput.js')}}" type="text/javascript"></script>
-<!--<script src="{{asset('/bootstrap-fileinput-master/themes/explorer-fa/theme.js')}}" type="text/javascript"></script>!-->
-<!--<script src="{{asset('/bootstrap-fileinput-master/themes/fa/theme.js')}}" type="text/javascript"></script>!-->
+<link href="{{asset('/bootstrap-fileinput/css/fileinput.css')}}" media="all" rel="stylesheet" type="text/css"/>
+<link href="{{asset('/bootstrap-fileinput/themes/explorer-fa/theme.css')}}" media="all" rel="stylesheet" type="text/css"/>
+<script src="{{asset('/bootstrap-fileinput/js/fileinput.js')}}" type="text/javascript"></script>
+<!--<script src="{{asset('/bootstrap-fileinput/themes/explorer-fa/theme.js')}}" type="text/javascript"></script>!-->
+<!--<script src="{{asset('/bootstrap-fileinput/themes/fa/theme.js')}}" type="text/javascript"></script>!-->
 
 <link rel="stylesheet" href="{{asset('/css/home_panel.css')}}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
@@ -81,7 +81,7 @@
                     <div class="col-md-12 panel form-group">
                         <div class="col-md-8 ">
                             <input required maxlength="60" placeholder="Título da memória" class="post-textarea col-md-4 form-control" id="titlememoir" name="titlememoir">
-                            <textarea required maxlength="200" class="post-textarea col-md-4 form-control" id="textmemoir" name="textmemoir"></textarea>
+                            <textarea required  class="post-textarea col-md-4 form-control" id="textmemoir" name="textmemoir"></textarea>
                             <span class="caracteres">200</span> <span class="catacterestxt">Restantes</span>
                             <div class="post-btn">
                                 <button type="submit" class="post-btn btn btn-sm btn-success">Memória</button>
@@ -91,7 +91,7 @@
                     <div class="file-loading ">
                         <input id="file-0a" class="file " type="file" name="mediafile" > 
                     </div>
-                    <!-- bootstrap-fileinput-master\js\fileinput.js  pluguin editado!-->
+                    <!-- bootstrap-fileinput\js\fileinput.js  pluguin editado!-->
                 </form>
                 <hr>
                 <div class="panel-body panel-feed-msg" data-spy="scroll">
@@ -190,21 +190,18 @@ $(document).on("click", ".spanmsg", function () {
         var idsender = $(this).attr("data-idsender"),
             idmsg    = $(this).attr("data-idmsg");
         $(this).fadeOut(2000);
-       window.setTimeout(function(){
-            $(this).remove();
-            $.ajax({
-                   type: "get",
-                   data: {idmsg:idmsg, idsender:idsender}, // serializes the form's elements.
-                   url: "{{route('profile.edit_message')}}",
-                   success: function(data)
-                   {     
+        $(this).remove();
+        $.ajax({
+            type: "get",
+            data: {idmsg:idmsg, idsender:idsender}, // serializes the form's elements.
+            url: "{{route('profile.edit_message')}}",
+            success: function(data){     
                     
-                   },
-                    error: function() {
-                       console.log('erro ao mudar status da menssagem');
-                    }
-            });
-       },2000);
+            },
+            error: function(){
+                console.log('erro ao mudar status da menssagem');
+            }
+        });
 });
 </script>
 <script type="text/javascript">
@@ -257,7 +254,7 @@ $(".target").mouseenter(function(event){
                 +"<img src='"+avatar+"' class='img-circle' style='width:62px; border: solid 4px #fff;  margin-top:-35px;'>"
                 +"<span aria-hidden='true' class='close' style='top:0; left:95%; position:absolute; width:30px;  border-radius:20px 20px 20px 20px ; '>&#x2718;</span>"
                 +"<div  id='privatemsg'> <div class='form-group'>"
-                +"<input id='msgvalue' alias='"+alias+"' name='"+alias+"' class='msgvalue form-control box_msg_ta' style='z-index: 1002; width:570px; height:50px; color:black;'></div>"
+                +"<input maxlength='140'  alias='"+alias+"' name='"+alias+"' class='msgvalue form-control box_msg_ta' style='z-index: 1002; width:570px; height:50px; color:black;'></div>"
                 +"<input class='aliasname' type='hidden' name='alias' value='"+alias+"'>"
                 +"<button class='btnsubmit form-control btn btn-success btn-x'>Enviar</button>"
                 +"</div>"
@@ -276,6 +273,7 @@ $(".target").mouseenter(function(event){
                    success: function(data)
                    {
                        console.log(data);
+                       $(".msgvalue").val("");
                        $(".popup").fadeOut("slow");
                    },
                     error: function() {
